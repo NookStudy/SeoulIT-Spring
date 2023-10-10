@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns ="http://www.springframework.org/schema/beans"
+		xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance"
+		xsi:schemaLocation = "http://www.springframework.org/schema/beans
+							  http://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+	<!-- xml이 추가되어도 java코드는 변경하지 않아도 된다. -->
+	<import resource="classpath:config/beans2.xml"/>
+
+	 <bean id="hello" class="com.study.spring.Hello">
+		 <!-- setter를 이용한 멤버변수 초기화 -->
+		<property name = "name" value="홍길동"/>
+		<property name = "nickname">
+			<value>길동이89</value>
+		</property>
+		<property name="printer" ref="printerA"/>
+	</bean>					
+</beans> 
+		

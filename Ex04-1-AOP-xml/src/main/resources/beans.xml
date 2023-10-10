@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns ="http://www.springframework.org/schema/beans"
+		xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance"
+		xmlns:aop = "http://www.springframework.org/schema/aop"
+		xmlns:context = "http://www.springframework.org/schema/context"
+		xsi:schemaLocation = "http://www.springframework.org/schema/beans
+							  http://www.springframework.org/schema/beans/spring-beans.xsd
+							  http://www.springframework.org/schema/aop
+							  http://www.springframework.org/schema/aop/spring-aop.xsd
+							  "
+							  >
+	
+	<!-- 공통기능으로 사용할 클래스 -->						  
+  	<bean id = "LogAop" class= "com.study.spring.LogAop"/>
+  	
+  	<!-- 빈으로 등록한 logAop 를  AOP 서비스로 사용하겠다고 정의 -->
+  	<aop:config>
+  	<!-- 
+  		공통기능 설정 : 앞에서 생성한 LogAop빈을 참조하고,
+  			아이디는 logger로 설정한다. 
+  	-->
+  		<aop:aspect id ="logger" ref="LogAop"><!-- 여기 ref가 위의 id와 동일해야함 -->
+  		<!-- 
+  			포인트컷의 범위 지정. 
+  			해당범위는 aop패키지의 모든 클래스의 정의된 메서드를 대상으로 
+  			공통기능을 적용하겠다는 의미이다.
+  		 -->
+  			<aop:pointcut id="publicM" expression="within(com.study.spring.*)" />
+  			<!-- 
+  				Advice는 "around" 타입으로 지정하고,
+  				이 때 loggerAop 메서드를 공통기능으로 사용하겠다는 선언.
+			 -->
+  			<aop:around pointcut-ref="publicM" method="loggerAop"/>
+  		</aop:aspect>
+  	</aop:config>
+	
+	<!-- 
+	
+	 -->
+  	<bean id = "student" class= "com.study.spring.Student">
+  		<property name = "name" value="홍길동"></property>
+  		<property name = "age" value="30"></property>
+  	</bean>
+	
+  	<bean id = "worker" class= "com.study.spring.Worker">
+  		<property name = "name" value="전우치"></property>
+  		<property name = "age" value="35"></property>
+  	</bean>
+</beans> 
+		
